@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Various hack</title>
+<!-- 2023-06-04 Sun 00:36 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Org-mode">
+<meta name="author" content="ivan">
+
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<style>
+/* org mode styles on top of twbs */
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-size: 18px;
+    margin-bottom: 105px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 101px;
+    background-color: #f5f5f5;
+}
+
+footer > div {
+    padding: 10px;
+}
+
+footer p {
+    margin: 0 0 5px;
+    text-align: center;
+    font-size: 16px;
+}
+
+#table-of-contents {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+blockquote p {
+    font-size: 18px;
+}
+
+pre {
+    font-size: 16px;
+}
+
+.footpara {
+    display: inline-block;
+}
+
+figcaption {
+  font-size: 16px;
+  color: #666;
+  font-style: italic;
+  padding-bottom: 15px;
+}
+
+/* from twbs docs */
+
+.bs-docs-sidebar.affix {
+    position: static;
+}
+@media (min-width: 768px) {
+    .bs-docs-sidebar {
+        padding-left: 20px;
+    }
+}
+
+/* All levels of nav */
+.bs-docs-sidebar .nav > li > a {
+    display: block;
+    padding: 4px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #999;
+}
+.bs-docs-sidebar .nav > li > a:hover,
+.bs-docs-sidebar .nav > li > a:focus {
+    padding-left: 19px;
+    color: #A1283B;
+    text-decoration: none;
+    background-color: transparent;
+    border-left: 1px solid #A1283B;
+}
+.bs-docs-sidebar .nav > .active > a,
+.bs-docs-sidebar .nav > .active:hover > a,
+.bs-docs-sidebar .nav > .active:focus > a {
+    padding-left: 18px;
+    font-weight: bold;
+    color: #A1283B;
+    background-color: transparent;
+    border-left: 2px solid #A1283B;
+}
+
+/* Nav: second level (shown on .active) */
+.bs-docs-sidebar .nav .nav {
+    display: none; /* Hide by default, but at >768px, show it */
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav > li > a:focus {
+    padding-left: 29px;
+}
+.bs-docs-sidebar .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav > .active:focus > a {
+    padding-left: 28px;
+    font-weight: 500;
+}
+
+/* Nav: third level (shown on .active) */
+.bs-docs-sidebar .nav .nav .nav {
+    padding-bottom: 10px;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.bs-docs-sidebar .nav .nav .nav > li > a:hover,
+.bs-docs-sidebar .nav .nav .nav > li > a:focus {
+    padding-left: 39px;
+}
+.bs-docs-sidebar .nav .nav .nav > .active > a,
+.bs-docs-sidebar .nav .nav .nav > .active:hover > a,
+.bs-docs-sidebar .nav .nav .nav > .active:focus > a {
+    padding-left: 38px;
+    font-weight: 500;
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+    .bs-docs-sidebar .nav > .active > ul {
+        display: block;
+    }
+    /* Widen the fixed sidebar */
+    .bs-docs-sidebar.affix,
+    .bs-docs-sidebar.affix-bottom {
+        width: 213px;
+    }
+    .bs-docs-sidebar.affix {
+        position: fixed; /* Undo the static from mobile first approach */
+        top: 20px;
+    }
+    .bs-docs-sidebar.affix-bottom {
+        position: absolute; /* Undo the static from mobile first approach */
+    }
+    .bs-docs-sidebar.affix .bs-docs-sidenav,.bs-docs-sidebar.affix-bottom .bs-docs-sidenav {
+        margin-top: 0;
+        margin-bottom: 0
+    }
+}
+@media (min-width: 1200px) {
+    /* Widen the fixed sidebar again */
+    .bs-docs-sidebar.affix-bottom,
+    .bs-docs-sidebar.affix {
+        width: 263px;
+    }
+}
+</style>
+<script>
+$(function() {
+    'use strict';
+
+    $('.bs-docs-sidebar li').first().addClass('active');
+
+    $(document.body).scrollspy({target: '.bs-docs-sidebar'});
+
+    $('.bs-docs-sidebar').affix();
+});
+</script>
+</head>
+<body>
+<div id="content" class="container">
+<div class="row"><div class="col-md-3 col-md-push-9"><nav id="table-of-contents">
+<div id="text-table-of-contents" class="bs-docs-sidebar">
+<ul class="nav">
+<li><a href="#sec-1">1. Working on a server hints</a>
+<ul class="nav">
+<li><a href="#sec-1-1">1.1. ssh and remote jupyter notebook</a></li>
+<li><a href="#sec-1-2">1.2. Run and connect to a remote jupyter notebook:</a></li>
+<li><a href="#sec-1-3">1.3. Copy and download files using ssh</a></li>
+<li><a href="#sec-1-4">1.4. Use screen (screen splitting) on a server</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Numpy hints</a>
+<ul class="nav">
+<li><a href="#sec-2-1">2.1. Print data types of array elements:</a></li>
+<li><a href="#sec-2-2">2.2. Change array data type</a></li>
+<li><a href="#sec-2-3">2.3. Turn np array into a list</a></li>
+<li><a href="#sec-2-4">2.4. Use logical operations to compare np arrays/matrices element-wise</a></li>
+<li><a href="#sec-2-5">2.5. Export list which contains intesection of two lists</a></li>
+<li><a href="#sec-2-6">2.6. Find maximum value of a subarray</a></li>
+<li><a href="#sec-2-7">2.7. Find a closest value to a given number in np array</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3. Preview array in a log-log histogram</a></li>
+<li><a href="#sec-4">4. Make a movie (gif) from a set of pictures</a></li>
+<li><a href="#sec-5">5. CHIANTI database and package installation</a></li>
+<li><a href="#sec-6">6. Find location of a python package</a></li>
+<li><a href="#sec-7">7. untar archives</a></li>
+<li><a href="#sec-8">8. Latex hints</a>
+<ul class="nav">
+<li><a href="#sec-8-1">8.1. Setting different typefaces</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9. Run multiprocessing programs in PyCharm</a></li>
+<li><a href="#sec-10">10. Matplotlib stuff</a>
+<ul class="nav">
+<li><a href="#sec-10-1">10.1. Clear figures for new plots</a></li>
+<li><a href="#sec-10-2">10.2. Add colorbar to a figure link</a></li>
+<li><a href="#sec-10-3">10.3. Fix colorbar size and align it with plot</a></li>
+<li><a href="#sec-10-4">10.4. Add label lo a colorbar</a></li>
+<li><a href="#sec-10-5">10.5. Multiplot</a></li>
+<li><a href="#sec-10-6">10.6. Levels, contours &amp; pcolormesh</a></li>
+<li><a href="#sec-10-7">10.7. FILL AREA BETWEEN LINES</a></li>
+<li><a href="#sec-10-8">10.8. Export plot to .ps file</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11. Clean mess with ANACONDA</a>
+<ul class="nav">
+<li><a href="#sec-11-1">11.1. Create virtual environment</a></li>
+<li><a href="#sec-11-2">11.2. Use skeletons to install packages directly from PyPI if there is no availiable version in conda</a></li>
+<li><a href="#sec-11-3">11.3. Install Anaconda into a proper directory on a remote machine</a></li>
+<li><a href="#sec-11-4">11.4. Packages to install into venv:</a></li>
+</ul>
+</li>
+<li><a href="#sec-12">12. Configufe a wi-fi printer ubuntu</a>
+<ul class="nav">
+<li><a href="#sec-12-1">12.1. Setup double-sided printing (For Linux)</a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13. Emacs block selection</a></li>
+<li><a href="#sec-14">14. MC notes</a>
+<ul class="nav">
+<li><a href="#sec-14-1">14.1. Adjusting panels</a></li>
+<li><a href="#sec-14-2">14.2. Selecting files</a></li>
+<li><a href="#sec-14-3">14.3. Accesing the shell</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+</div><div class="col-md-9 col-md-pull-3"><h1 class="title">Various hack</h1>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Working on a server hints</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> ssh and remote jupyter notebook</h3>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Run and connect to a remote jupyter notebook:</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+<a href="https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/">Instructions</a><br >
+Launch jupyter notebook in the correct folder on fantuan (<i>data/ido4</i>)<br >
+</p>
+<hr >
+<p>
+With functions configured in .bashrc files on both remote and local machines, simply run:<br >
+At remote machine:<br >
+<code>jpt 8888</code><br >
+At local machine:<br >
+<code>jptt 8888 8889</code><br >
+And run jupyter notebook at browser window:<br >
+<code>localhost:8889</code><br >
+</p>
+
+<p>
+To close connection do the following:<br >
+</p>
+<ol class="org-ol">
+<li>Quit Jupyter notebook on server<br >
+</li>
+<li>acquire PID of processes that are still occupying the ports:<br >
+</li>
+</ol>
+<p>
+<code>lsof -ti:YYYY</code> where YYYY is the required port<br >
+<code>kill PID</code><br >
+</p>
+
+<hr >
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Fire-up a Jupyter notebook</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Step 1:<br >
+Connect to a remote server<br >
+<code>ssh ivan@128.235.93.44</code> (hesychia IP address)<br >
+Run jupyter notebook at port XXXX (8888)<br >
+<code>jupyter notebook --no-browser --port=8888</code><br >
+</p>
+
+<p>
+Step 2:<br >
+Forward via ssh in my local machine<br >
+<code>ssh -N -f -L localhost:8889:localhost:8888 ivan@128.235.93.44</code><br >
+</p>
+
+<p>
+Step 3:<br >
+Open browser to <code>http://localhost:8889</code><br >
+</p>
+<hr >
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Close all connections</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+Stop my notebook from remote via CTRL+C then Y, and kill the process on YYYY (8889) via<br >
+<code>sudo netstat -lpn |grep :YYYY</code><br >
+this will display PID<br >
+<code>kill PID</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> Write a function to bash configuration file</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+In remote (~/.bashrc):<br >
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #20b2aa; font-weight: bold;">function</span> <span style="color: #00ff7f;">jpt</span>(){
+    <span style="color: #cd853f;"># </span><span style="color: #cd853f;">Fires-up a Jupyter notebook by supplying a specific port</span>
+    jupyter notebook --no-browser --port=$<span style="color: #9acd32;">1</span>
+}
+</pre>
+</div>
+<p>
+In local (~/.bashrc):<br >
+</p>
+<div class="org-src-container">
+
+<pre class="src src-bash"><span style="color: #20b2aa; font-weight: bold;">function</span> <span style="color: #00ff7f;">jptt</span>(){
+    <span style="color: #cd853f;"># </span><span style="color: #cd853f;">Forwards port $1 into port $2 and listens to it</span>
+    ssh -N -f -L localhost:$<span style="color: #9acd32;">2</span>:localhost:$<span style="color: #9acd32;">1</span> remoteuser@remotehost
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Copy and download files using ssh</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+<code>scp &lt;source&gt; &lt;destination&gt;</code><br >
+For example:<br >
+To copy a file from B to A while logged into B:<br >
+<code>scp /path/to/file username@a:/path/to/destination</code><br >
+To copy a file from B to A while logged into A:<br >
+<code>scp username@b:/path/to/file /path/to/destination</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Use screen (screen splitting) on a server</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+<a href="https://linuxize.com/post/how-to-use-linux-screen/">link</a><br >
+    Ctrl+a c Create a new window (with shell).<br >
+    Ctrl+a " List all windows.<br >
+    Ctrl+a 0 Switch to window 0 (by number).<br >
+    Ctrl+a A Rename the current window.<br >
+    Ctrl+a S Split current region horizontally into two regions.<br >
+    Ctrl+a | Split current region vertically into two regions.<br >
+    Ctrl+a tab Switch the input focus to the next region.<br >
+    Ctrl+a Ctrl+a Toggle between the current and previous windows<br >
+    Ctrl+a Q Close all regions but the current one.<br >
+    Ctrl+a X Close the current region.<br >
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Numpy hints</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Print data types of array elements:</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+<code>array.dtype</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Change array data type</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+<code>array.astype('complex128')</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Turn np array into a list</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+<code>ndarray.tolist()</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Use logical operations to compare np arrays/matrices element-wise</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Resolve ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()<br >
+using numpy.logical_and() and numpy.logical_or()<br >
+i.e.<br >
+<code>np.where(np.logical_and((arr1 !</code> barr), (arr1 != carr))=<br >
+See for the further reference:<br >
+<a href="https://researchdatapod.com/python-valueerror-the-truth-value-of-an-array-with-more-than-one-element-is-ambiguous-use-a-any-or-a-all/">Resolve value error</a><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> Export list which contains intesection of two lists</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+<code>[i for i in timeframes if i in [i[:-3]+'2' for i in gbo_timeframes.astype('U22')]]</code><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> Find maximum value of a subarray</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+<code>np.divide(np.amax(mw_err_map[:,13,:,:], axis=(1,2)), np.amax(mw_map[:,13,:,:], axis=(1,2)))</code><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> Find a closest value to a given number in np array</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+<code>np.argmin(np.abs(xphs - e_f0))</code><br >
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Preview array in a log-log histogram</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #9acd32;">bins</span> = 10**(np.linspace(-1.,3.,70)) <span style="color: #cd853f;"># </span><span style="color: #cd853f;">logarithmic bins</span>
+plt.xscale(<span style="color: #ffa07a;">'log'</span>) <span style="color: #cd853f;"># </span><span style="color: #cd853f;">set log scale on x axis</span>
+<span style="color: #9acd32;">count</span>, <span style="color: #9acd32;">bins</span>, <span style="color: #9acd32;">ignored</span> = plt.hist(norm.v, bins=bins, density=<span style="color: #1e90ff;">True</span>, log=<span style="color: #1e90ff;">True</span>) <span style="color: #cd853f;"># </span><span style="color: #cd853f;">plot a histogram of an array norm</span>
+plt.show()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Make a movie (gif) from a set of pictures</h2>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> CHIANTI database and package installation</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Install gzipped database<br >
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Find location of a python package</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+i.e. <code>pip show chiantipy</code><br >
+or in a python prompt<br >
+</p>
+<ol class="org-ol">
+<li>Import the package e.g. <code>import pyxsim</code><br >
+</li>
+<li>Type the path <code>print(pyxsim.__file__)</code><br >
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> untar archives</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+tar -xvzf<br >
+tar -xvf (if not gunzipped archive)<br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Latex hints</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> Setting different typefaces</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Font catalogues (see <a href="https://tug.org/FontCatalogue/math.html">link</a>)<br >
+To display math in the same way as main font use package <i>mathastext</i><br >
+(examples can be found <a href="http://jf.burnol.free.fr/showcase.html">here</a>)<br >
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Run multiprocessing programs in PyCharm</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Go to 'Edit Configurations'<br >
+Check [X] Allow parallel run<br >
+In execution choose [X] Emulate terminal in output console<br >
+For reference see: (<a href="https://youtrack.jetbrains.com/issue/PY-50116">link</a>)<br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Matplotlib stuff</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> Clear figures for new plots</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+Clear plot before a new iteration in a loop:<br >
+<code>plt.clf()</code> and refresh a graph (<a href="https://stackoverflow.com/questions/17106288/matplotlib-pyplot-will-not-forget-previous-plots-how-can-i-flush-refresh">link</a>)<br >
+<a href="https://stackoverflow.com/questions/8213522/when-to-use-cla-clf-or-close-for-clearing-a-plot-in-matplotlib">Answer</a><br >
+pyplot interface<br >
+</p>
+
+<p>
+pyplot is a module that collects a couple of functions that allow matplotlib to be used in a functional manner. I here assume that pyplot has been imported as import matplotlib.pyplot as plt. In this case, there are three different commands that remove stuff:<br >
+</p>
+
+<p>
+See matplotlib.pyplot Functions:<br >
+</p>
+
+<p>
+-<code>plt.cla()</code> clears an axis, i.e. the currently active axis in the current figure. It leaves the other axes untouched.<br >
+-<code>plt.clf()</code> clears the entire current figure with all its axes, but leaves the window opened, such that it may be reused for other plots.<br >
+-<code>plt.close()</code> closes a window, which will be the current window, if not specified otherwise.<br >
+</p>
+
+<p>
+Which functions suits you best depends thus on your use-case.<br >
+</p>
+
+<p>
+The close() function furthermore allows one to specify which window should be closed. The argument can either be a number or name given to a window when it was created using figure(number_or_name) or it can be a figure instance fig obtained, i.e., usingfig = figure(). If no argument is given to close(), the currently active window will be closed. Furthermore, there is the syntax close('all'), which closes all figures.<br >
+methods of the Figure class<br >
+</p>
+
+<p>
+Additionally, the Figure class provides methods for clearing figures. I'll assume in the following that fig is an instance of a Figure:<br >
+</p>
+
+<p>
+fig.clf() clears the entire figure. This call is equivalent to plt.clf() only if fig is the current figure.<br >
+</p>
+
+<p>
+fig.clear() is a synonym for fig.clf()<br >
+</p>
+
+<p>
+Note that even del fig will not close the associated figure window. As far as I know the only way to close a figure window is using plt.close(fig) as described above.<br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> Add colorbar to a figure <a href="https://stackoverflow.com/questions/23876588/matplotlib-colorbar-in-each-subplot">link</a></h3>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> Fix colorbar size and align it with plot</h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+<a href="https://joseph-long.com/writing/colorbars/">link</a><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> Add label lo a colorbar</h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+<a href="https://stackoverflow.com/questions/15908371/matplotlib-colorbars-and-its-text-labels">link</a><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> Multiplot</h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+<a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/categorical_variables.html#sphx-glr-gallery-lines-bars-and-markers-categorical-variables-py">link</a><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> Levels, contours &amp; pcolormesh</h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+<a href="https://matplotlib.org/stable/gallery/images_contours_and_fields/pcolormesh_levels.html#sphx-glr-gallery-images-contours-and-fields-pcolormesh-levels-py">link</a><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-7" class="outline-3">
+<h3 id="sec-10-7"><span class="section-number-3">10.7</span> FILL AREA BETWEEN LINES</h3>
+<div class="outline-text-3" id="text-10-7">
+<p>
+<a href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py">link</a><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-8" class="outline-3">
+<h3 id="sec-10-8"><span class="section-number-3">10.8</span> Export plot to .ps file</h3>
+<div class="outline-text-3" id="text-10-8">
+<p>
+<a href="https://tex.stackexchange.com/questions/543771/cant-save-image-as-eps-in-matplotlib-when-using-tex-since-new-install~">link</a><br >
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #20b2aa; font-weight: bold;">import</span> matplotlib.pyplot <span style="color: #20b2aa; font-weight: bold;">as</span> plt
+
+plt.rc(<span style="color: #ffa07a;">'text'</span>, usetex=<span style="color: #1e90ff;">True</span>)
+plt.rc(<span style="color: #ffa07a;">'legend'</span>, frameon=<span style="color: #1e90ff;">False</span>) <span style="color: #cd853f;"># </span><span style="color: #cd853f;">PS doesn't do well with transparencies</span>
+
+<span style="color: #9acd32;">fig</span>, <span style="color: #9acd32;">ax</span> = plt.subplots()
+ax.plot([0,1,2], [0,1,2], label=r<span style="color: #ffa07a;">'$y = mx + b$'</span>)  <span style="color: #cd853f;"># </span><span style="color: #cd853f;">Latex legend label.</span>
+ax.text(1, 0, r<span style="color: #ffa07a;">"$e^{ix} = \cos(x) + i\sin(x)$"</span>)   <span style="color: #cd853f;"># </span><span style="color: #cd853f;">More Latex text.</span>
+ax.legend(loc=<span style="color: #ffa07a;">"upper left"</span>)
+
+plt.savefig(<span style="color: #ffa07a;">'plot.ps'</span>)          <span style="color: #cd853f;"># </span><span style="color: #cd853f;">Postscript, not Encapsulated Postscript</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Clean mess with ANACONDA</h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> Create virtual environment</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+<code>conda create -n radtr python=3.10.6</code><br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2"><span class="section-number-3">11.2</span> Use skeletons to install packages directly from PyPI if there is no availiable version in conda</h3>
+<div class="outline-text-3" id="text-11-2">
+<p>
+<code>conda skeleton pypi --extra-specs cython --extra-specs numpy --extra-specs yt --python-version 3.7</code><br >
+Skeletons in python <a href="https://docs.conda.io/projects/conda-build/en/latest/user-guide/tutorials/build-pkgs-skeleton.html">https://docs.conda.io/projects/conda-build/en/latest/user-guide/tutorials/build-pkgs-skeleton.html</a><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-11-3" class="outline-3">
+<h3 id="sec-11-3"><span class="section-number-3">11.3</span> Install Anaconda into a proper directory on a remote machine</h3>
+<div class="outline-text-3" id="text-11-3">
+<p>
+Download conda to the new directory<br >
+</p>
+
+<p>
+Install conda from a new directory<br >
+And restart bash<br >
+&#x2013;&gt; Open .bashrc and conda_config (conda config &#x2013;show) to check if the environment variables are all set correctly<br >
+</p>
+
+<p>
+&#x2014;<br >
+If this would not work change the paths (pkgs_dirs, envs_dirs) manually<br >
+<code>$ conda config --add pkgs_dirs /right/directory</code><br >
+Restart the bash after resetting variables in .condarc<br >
+</p>
+
+<p>
+&#x2014;<br >
+About good Anaconda practices on supercomputers: <a href="https://docs.csc.fi/support/tutorials/conda/">link</a><br >
+</p>
+
+<p>
+<b>Do that before running conda init</b><br >
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-11-4" class="outline-3">
+<h3 id="sec-11-4"><span class="section-number-3">11.4</span> Packages to install into venv:</h3>
+<div class="outline-text-3" id="text-11-4">
+<ul class="org-ul">
+<li>jupyter-notebook<br >
+</li>
+<li>yt wit dependencies (line mpi4py)<br >
+</li>
+<li>pyxsim<br >
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Configufe a wi-fi printer ubuntu</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+See link: <a href="https://www.askdavetaylor.com/how-to-add-wireless-wifi-ip-printer-to-linux-system/">link</a><br >
+</p>
+</div>
+<div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> Setup double-sided printing (For Linux)</h3>
+<div class="outline-text-3" id="text-12-1">
+<p>
+for Konica Minolta bizhub C360i<br >
+(instructions from <a href="https://fitzcarraldoblog.wordpress.com/2020/12/03/work-around-in-linux-to-switch-between-single-sided-and-double-sided-printing/">https://fitzcarraldoblog.wordpress.com/2020/12/03/work-around-in-linux-to-switch-between-single-sided-and-double-sided-printing/</a>)<br >
+</p>
+<ol class="org-ol">
+<li>Download a Linux driver from the Konica Minolta Download Centre (<a href="https://www.konicaminolta.eu/eu-en/support/download-centre">https://www.konicaminolta.eu/eu-en/support/download-centre</a>)<br >
+</li>
+<li>Extract the driver package <code>$ tar -xvzf [package.tgz]</code><br >
+</li>
+<li>Run the installation script as root <code># ./install.pl</code><br >
+</li>
+<li>Restart the CUPS server <code>sudo service cups restart</code> to finish the driver installation<br >
+</li>
+</ol>
+
+<p>
+Set double-sided printing option as default:<br >
+Open file /etc/cups/ppd/Konica_Minolta_bizhub_C360.ppd<br >
+Change the default printing option from <code>*DefaultKMDuplex: 1Sided</code> to <code>*DefaultKMDuplex: 2Sided</code> and restart the CUPS server<br >
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Emacs block selection</h2>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> MC notes</h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1"><span class="section-number-3">14.1</span> Adjusting panels</h3>
+<div class="outline-text-3" id="text-14-1">
+<p>
+<code>C-u</code> swap panels<br >
+<code>M-,</code> switch layout from left-right to top-bottom<br >
+<code>M-i</code> synchronize panels<br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2"><span class="section-number-3">14.2</span> Selecting files</h3>
+<div class="outline-text-3" id="text-14-2">
+<p>
+<code>C-t</code> select files<br >
+</p>
+</div>
+</div>
+<div id="outline-container-sec-14-3" class="outline-3">
+<h3 id="sec-14-3"><span class="section-number-3">14.3</span> Accesing the shell</h3>
+<div class="outline-text-3" id="text-14-3">
+<p>
+<code>C-Return</code> copies the current selected file's name to the prompt<br >
+</p>
+</div>
+</div>
+</div>
+</div></div></div>
+<footer id="postamble" class="">
+<div><p class="author">Author: ivan</p>
+<p class="date">Created: 2023-06-04 Sun 00:36</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 26.3 (<a href="http://orgmode.org">Org-mode</a> 9.1.9)</p>
+</div>
+</footer>
+</body>
+</html>

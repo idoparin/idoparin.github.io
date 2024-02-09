@@ -1,0 +1,242 @@
+#+TITLE: Various hack
+
+* Working on a server hints
+** ssh and remote jupyter notebook
+** Run and connect to a remote jupyter notebook:
+[[https://ljvmiranda921.github.io/notebook/2018/01/31/running-a-jupyter-notebook/][Instructions]]
+Launch jupyter notebook in the correct folder on fantuan (/data/ido4/)
+-----
+With functions configured in .bashrc files on both remote and local machines, simply run:
+At remote machine:
+=jpt 8888=
+At local machine:
+=jptt 8888 8889=
+And run jupyter notebook at browser window:
+=localhost:8889=
+
+To close connection do the following:
+1) Quit Jupyter notebook on server
+2) acquire PID of processes that are still occupying the ports:
+=lsof -ti:YYYY= where YYYY is the required port
+=kill PID=
+
+-----
+*** Fire-up a Jupyter notebook
+Step 1:
+Connect to a remote server 
+=ssh ivan@128.235.93.44= (hesychia IP address)
+Run jupyter notebook at port XXXX (8888)
+=jupyter notebook --no-browser --port=8888=
+
+Step 2: 
+Forward via ssh in my local machine 
+=ssh -N -f -L localhost:8889:localhost:8888 ivan@128.235.93.44=
+
+Step 3: 
+Open browser to =http://localhost:8889=
+-----
+*** Close all connections
+Stop my notebook from remote via CTRL+C then Y, and kill the process on YYYY (8889) via
+=sudo netstat -lpn |grep :YYYY=
+this will display PID
+=kill PID=
+
+*** Write a function to bash configuration file
+In remote (~/.bashrc):
+#+BEGIN_SRC bash
+function jpt(){
+    # Fires-up a Jupyter notebook by supplying a specific port
+    jupyter notebook --no-browser --port=$1
+}
+#+END_SRC
+In local (~/.bashrc):
+#+BEGIN_SRC bash
+function jptt(){
+    # Forwards port $1 into port $2 and listens to it
+    ssh -N -f -L localhost:$2:localhost:$1 remoteuser@remotehost
+}
+#+END_SRC
+
+** Copy and download files using ssh
+=scp <source> <destination>=
+For example:
+To copy a file from B to A while logged into B:
+=scp /path/to/file username@a:/path/to/destination=
+To copy a file from B to A while logged into A:
+=scp username@b:/path/to/file /path/to/destination=
+
+** Use screen (screen splitting) on a server
+[[https://linuxize.com/post/how-to-use-linux-screen/][link]]
+    Ctrl+a c Create a new window (with shell).
+    Ctrl+a " List all windows.
+    Ctrl+a 0 Switch to window 0 (by number).
+    Ctrl+a A Rename the current window.
+    Ctrl+a S Split current region horizontally into two regions.
+    Ctrl+a | Split current region vertically into two regions.
+    Ctrl+a tab Switch the input focus to the next region.
+    Ctrl+a Ctrl+a Toggle between the current and previous windows
+    Ctrl+a Q Close all regions but the current one.
+    Ctrl+a X Close the current region.
+* Numpy hints
+** Print data types of array elements:
+=array.dtype=
+
+** Change array data type
+=array.astype('complex128')=
+
+** Turn np array into a list
+=ndarray.tolist()=
+
+** Use logical operations to compare np arrays/matrices element-wise
+Resolve ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+using numpy.logical_and() and numpy.logical_or()
+i.e.
+=np.where(np.logical_and((arr1 != barr), (arr1 != carr))=
+See for the further reference:
+[[https://researchdatapod.com/python-valueerror-the-truth-value-of-an-array-with-more-than-one-element-is-ambiguous-use-a-any-or-a-all/][Resolve value error]]
+
+** Export list which contains intesection of two lists
+=[i for i in timeframes if i in [i[:-3]+'2' for i in gbo_timeframes.astype('U22')]]=
+
+** Find maximum value of a subarray
+=np.divide(np.amax(mw_err_map[:,13,:,:], axis=(1,2)), np.amax(mw_map[:,13,:,:], axis=(1,2)))=
+** Find a closest value to a given number in np array
+=np.argmin(np.abs(xphs - e_f0))=
+* Preview array in a log-log histogram
+#+BEGIN_SRC python
+bins = 10**(np.linspace(-1.,3.,70)) # logarithmic bins
+plt.xscale('log') # set log scale on x axis
+count, bins, ignored = plt.hist(norm.v, bins=bins, density=True, log=True) # plot a histogram of an array norm
+plt.show()
+#+END_SRC
+* Make a movie (gif) from a set of pictures 
+* CHIANTI database and package installation
+- Install gzipped database
+* Find location of a python package 
+i.e. =pip show chiantipy=
+or in a python prompt
+1. Import the package e.g. =import pyxsim=
+2. Type the path =print(pyxsim.__file__)=
+
+* untar archives
+tar -xvzf
+tar -xvf (if not gunzipped archive)
+* Latex hints
+** Setting different typefaces
+Font catalogues (see [[https://tug.org/FontCatalogue/math.html][link]])
+To display math in the same way as main font use package /mathastext/
+(examples can be found [[http://jf.burnol.free.fr/showcase.html][here]])
+* Run multiprocessing programs in PyCharm
+Go to 'Edit Configurations'
+Check [X] Allow parallel run
+In execution choose [X] Emulate terminal in output console
+For reference see: ([[https://youtrack.jetbrains.com/issue/PY-50116][link]])
+
+* Matplotlib stuff
+** Clear figures for new plots
+Clear plot before a new iteration in a loop:
+=plt.clf()= and refresh a graph ([[https://stackoverflow.com/questions/17106288/matplotlib-pyplot-will-not-forget-previous-plots-how-can-i-flush-refresh][link]])
+[[https://stackoverflow.com/questions/8213522/when-to-use-cla-clf-or-close-for-clearing-a-plot-in-matplotlib][Answer]]
+pyplot interface
+
+pyplot is a module that collects a couple of functions that allow matplotlib to be used in a functional manner. I here assume that pyplot has been imported as import matplotlib.pyplot as plt. In this case, there are three different commands that remove stuff:
+
+See matplotlib.pyplot Functions:
+
+-=plt.cla()= clears an axis, i.e. the currently active axis in the current figure. It leaves the other axes untouched.
+-=plt.clf()= clears the entire current figure with all its axes, but leaves the window opened, such that it may be reused for other plots.
+-=plt.close()= closes a window, which will be the current window, if not specified otherwise.
+
+Which functions suits you best depends thus on your use-case.
+
+The close() function furthermore allows one to specify which window should be closed. The argument can either be a number or name given to a window when it was created using figure(number_or_name) or it can be a figure instance fig obtained, i.e., usingfig = figure(). If no argument is given to close(), the currently active window will be closed. Furthermore, there is the syntax close('all'), which closes all figures.
+methods of the Figure class
+
+Additionally, the Figure class provides methods for clearing figures. I'll assume in the following that fig is an instance of a Figure:
+
+fig.clf() clears the entire figure. This call is equivalent to plt.clf() only if fig is the current figure.
+
+fig.clear() is a synonym for fig.clf()
+
+Note that even del fig will not close the associated figure window. As far as I know the only way to close a figure window is using plt.close(fig) as described above.
+** Add colorbar to a figure [[https://stackoverflow.com/questions/23876588/matplotlib-colorbar-in-each-subplot][link]]
+** Fix colorbar size and align it with plot
+[[https://joseph-long.com/writing/colorbars/][link]]
+
+** Add label lo a colorbar
+[[https://stackoverflow.com/questions/15908371/matplotlib-colorbars-and-its-text-labels][link]]
+** Multiplot
+[[https://matplotlib.org/stable/gallery/lines_bars_and_markers/categorical_variables.html#sphx-glr-gallery-lines-bars-and-markers-categorical-variables-py][link]]
+** Levels, contours & pcolormesh
+[[https://matplotlib.org/stable/gallery/images_contours_and_fields/pcolormesh_levels.html#sphx-glr-gallery-images-contours-and-fields-pcolormesh-levels-py][link]]
+** FILL AREA BETWEEN LINES
+[[https://matplotlib.org/stable/gallery/lines_bars_and_markers/fill_between_demo.html#sphx-glr-gallery-lines-bars-and-markers-fill-between-demo-py][link]]
+** Export plot to .ps file
+[[https://tex.stackexchange.com/questions/543771/cant-save-image-as-eps-in-matplotlib-when-using-tex-since-new-install~][link]]
+#+BEGIN_SRC python
+import matplotlib.pyplot as plt
+
+plt.rc('text', usetex=True)
+plt.rc('legend', frameon=False) # PS doesn't do well with transparencies
+
+fig, ax = plt.subplots()
+ax.plot([0,1,2], [0,1,2], label=r'$y = mx + b$')  # Latex legend label.
+ax.text(1, 0, r"$e^{ix} = \cos(x) + i\sin(x)$")   # More Latex text.
+ax.legend(loc="upper left")
+
+plt.savefig('plot.ps')          # Postscript, not Encapsulated Postscript
+#+END_SRC
+
+* Clean mess with ANACONDA
+** Create virtual environment
+=conda create -n radtr python=3.10.6=
+** Use skeletons to install packages directly from PyPI if there is no availiable version in conda
+=conda skeleton pypi --extra-specs cython --extra-specs numpy --extra-specs yt --python-version 3.7=
+Skeletons in python [[docs][https://docs.conda.io/projects/conda-build/en/latest/user-guide/tutorials/build-pkgs-skeleton.html]]
+
+** Install Anaconda into a proper directory on a remote machine
+Download conda to the new directory
+
+Install conda from a new directory
+And restart bash
+--> Open .bashrc and conda_config (conda config --show) to check if the environment variables are all set correctly
+
+--- 
+If this would not work change the paths (pkgs_dirs, envs_dirs) manually
+=$ conda config --add pkgs_dirs /right/directory=
+Restart the bash after resetting variables in .condarc
+
+---
+About good Anaconda practices on supercomputers: [[https://docs.csc.fi/support/tutorials/conda/][link]]
+
+*Do that before running conda init*
+
+** Packages to install into venv:
+- jupyter-notebook
+- yt wit dependencies (line mpi4py)
+- pyxsim
+* Configufe a wi-fi printer ubuntu
+  See link: [[https://www.askdavetaylor.com/how-to-add-wireless-wifi-ip-printer-to-linux-system/][link]]
+** Setup double-sided printing (For Linux)
+for Konica Minolta bizhub C360i
+(instructions from [[https://fitzcarraldoblog.wordpress.com/2020/12/03/work-around-in-linux-to-switch-between-single-sided-and-double-sided-printing/]])
+1. Download a Linux driver from the Konica Minolta Download Centre ([[https://www.konicaminolta.eu/eu-en/support/download-centre][https://www.konicaminolta.eu/eu-en/support/download-centre]])
+2. Extract the driver package =$ tar -xvzf [package.tgz]=
+3. Run the installation script as root =# ./install.pl=
+4. Restart the CUPS server =sudo service cups restart= to finish the driver installation
+
+Set double-sided printing option as default:
+Open file /etc/cups/ppd/Konica_Minolta_bizhub_C360.ppd
+Change the default printing option from =*DefaultKMDuplex: 1Sided= to =*DefaultKMDuplex: 2Sided= and restart the CUPS server
+
+* Emacs block selection
+* MC notes
+** Adjusting panels
+=C-u= swap panels
+=M-,= switch layout from left-right to top-bottom
+=M-i= synchronize panels
+** Selecting files
+=C-t= select files
+** Accesing the shell
+=C-Return= copies the current selected file's name to the prompt
+
