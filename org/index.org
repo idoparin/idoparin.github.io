@@ -1,3 +1,4 @@
+#+SETUPFILE: ~/.emacs.d/org-templates/level-0.org
 #+TITLE: Homepage (basic orgmode template version)
 #+DATE: <2024-11-15 Fri 17:05>
 #+AUTHOR: Ivan Oparin
