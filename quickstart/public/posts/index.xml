@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Ivan Oparin homepage</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Ivan Oparin homepage</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 17 Nov 2024 22:42:07 -0500</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My First Post</title>
+      <link>http://localhost:1313/posts/my-first-post/</link>
+      <pubDate>Sun, 17 Nov 2024 22:42:07 -0500</pubDate>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;This is &lt;strong&gt;bold&lt;/strong&gt; text, and this is &lt;em&gt;emphasized&lt;/em&gt; text.&lt;/p&gt;&#xA;&lt;p&gt;Visit &lt;a href=&#34;https://web.njit.edu/~ido4/&#34;&gt;Ivan&amp;rsquo;s&lt;/a&gt; website!&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/posts/all-posts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/all-posts/</guid>
+      <description>&lt;h2 id=&#34;my-first-post&#34;&gt;&lt;span class=&#34;org-todo done DONE&#34;&gt;DONE&lt;/span&gt; My first post &lt;span class=&#34;tag&#34;&gt;&lt;span class=&#34;tag1&#34;&gt;tag1&lt;/span&gt;&lt;span class=&#34;_category1&#34;&gt;@category1&lt;/span&gt;&lt;/span&gt;&lt;/h2&gt;&#xA;&lt;p&gt;This is my post body&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
