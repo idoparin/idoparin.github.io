@@ -1,6 +1,6 @@
 +++
 date = '2025-01-25T00:00:46-05:00'
-draft = true
+draft = false
 title = 'About me'
 +++
 I'm a graduate student at the Center for the Solar-Terrestrial Research at NJIT. My current research interest are related to the studies of the magnetic reconnection in Solar Flares and investigating the observational signatures of magnetic energy release during the reconnection.

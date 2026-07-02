@@ -14,7 +14,7 @@ description = "My personal and research blog"
 showFooterCredits = true
 math = true
 useIcon = true
-author.name= "Ivan Oparin"
+author = "Ivan Oparin"
 mainSections = ["posts"]  # Empty list shows no posts on homepage
 show_featured = false
 

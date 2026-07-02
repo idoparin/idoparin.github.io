@@ -1,5 +1,5 @@
 module hugomode
 
-go 1.22.8
+go 1.22
 
-require github.com/adityatelange/hugo-PaperMod v0.0.0-20250209063618-a020be213745 // indirect
+require github.com/adityatelange/hugo-PaperMod v0.0.0-20260510052646-154d006e0182
