@@ -1,0 +1,11 @@
+# Ignore temporary editor backup files
+*~
+
+# Ignore Hugo build and generated directories
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# OS generated files
+.DS_Store
+Thumbs.db
