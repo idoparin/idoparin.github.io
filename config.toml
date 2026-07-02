@@ -1,0 +1,40 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'Ivan Oparin homepage'
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[module]
+  [[module.imports]]
+    path = "github.com/adityatelange/hugo-PaperMod"
+
+[params]
+description = "My personal and research blog"
+showFooterCredits = true
+math = true
+useIcon = true
+author.name= "Ivan Oparin"
+mainSections = ["posts"]  # Empty list shows no posts on homepage
+show_featured = false
+
+#[outputFormats]
+#[outputFormats.RSS]
+#mediatype = "application/rss+xml"
+#baseName = "feed"
+
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+
+[[menu.main]]
+  name = "About"
+  url = "/about/"
+#  weight = 2
+
+[[menu.main]]
+  name = "Projects and blog"
+  url = "/posts/"
+#  weight = 3
