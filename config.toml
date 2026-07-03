@@ -7,7 +7,7 @@ title = 'Ivan Oparin homepage'
 
 [module]
   [[module.imports]]
-    path = "github.com/adityatelange/hugo-PaperMod"
+    path = "github.com/ortzikantu-ii/vortisil"
 
 [params]
 description = "My personal and research blog"
