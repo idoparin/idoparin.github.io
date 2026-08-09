@@ -6,6 +6,15 @@
 /resources/_gen/
 .hugo_build.lock
 
+# Local AI / editor tooling
+.aider*
+
+# Unused local theme checkouts (site uses Hugo modules)
+/themes/ananke/
+/themes/archie/
+/themes/risotto/
+/themes/smol/
+
 # OS generated files
 .DS_Store
 Thumbs.db

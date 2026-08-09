@@ -1,0 +1,19 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+<article class="article">
+    <div class="title-container">
+        <h1 class="article-title">{{ .Title }}</h1>
+    </div>
+
+    <div class="article-content">
+        {{ .Content }}
+    </div>
+
+    {{ range .Params.Publications }}
+        {{ partial "publication.html" . }}
+    {{ end }}
+    {{ range .Params.Publications }}
+        {{ partial "modal_publication.html" . }}
+    {{ end }}
+</article>
+{{ end }}

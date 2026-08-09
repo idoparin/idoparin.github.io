@@ -1,8 +1,0 @@
-#+title: My Second Awesome Post From separate file                                                                                          
-#+date: 2025-06-06                                                                                                                  
-#+hugo_base_dir: /home/ivan/proj/homepage/quickstart                                                                                 
-#+hugo_section: posts                                                                                                                
-#+hugo_tags: tag1, tag2                                                                                                              
-#+hugo_categories: category1 
-
-This is second example post to check directory structure
