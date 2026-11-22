@@ -1,7 +1,7 @@
 ---
 name: "Ivan Oparin"
 imgname:
-  name: "img/profile.png"
+  name: "/img/profile.png"
   alt: "Picture of Ivan Oparin"
   type: image/png
 personal_title: "Graduate student"

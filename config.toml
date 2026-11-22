@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://idoparin.github.io/'
 locale = 'en-us'
 title = 'Ivan Oparin'
 
@@ -58,7 +58,7 @@ pygmentsStyle = "native"
   blogrss = true
 
   [params.imgname]
-    name = "img/profile.png"
+    name = "/img/profile.png"
     alt = "Profile picture"
 
 [sitemap]

@@ -1,0 +1,108 @@
+/* Site custom styles: tiled backgrounds + readable content panels.
+ * See DESIGN_CHANGES.md to revert.
+ *
+ * Light mode: tile_light_pw.png + light panels, dark text.
+ * Dark mode: tile_dark_pw.png + dark panels, light text (html.dark only).
+ */
+
+body {
+  background-image: url("/img/tile_light_pw.png");
+  background-repeat: repeat;
+  background-position: top left;
+  background-attachment: fixed;
+  background-color: #c5d0d4; /* fallback */
+}
+
+/* Content panels — rectangular, no rounding */
+header,
+main.content,
+footer.footer {
+  background-color: rgba(255, 255, 255, 0.78);
+  border-radius: 0;
+  box-shadow: none;
+  color: #18181b;
+}
+
+/* Match theme .container width (max 50rem) so menu aligns with page text */
+header {
+  max-width: 50rem;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  /* Inset name from left edge and theme switch from right edge */
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  box-sizing: border-box;
+}
+
+main.content {
+  padding: 1.25rem 1.25rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+/* Theme sets h-10 on footer which clips content outside the panel */
+footer.footer {
+  height: auto !important;
+  min-height: 0;
+  margin: 0 auto 1.5rem;
+  padding: 0.9rem 1.25rem;
+  box-sizing: border-box;
+}
+
+footer.footer hr {
+  display: none; /* removes empty band above the footer links */
+}
+
+/* Keep in-panel text/links readable in light mode */
+header a,
+main.content,
+main.content a,
+main.content h1,
+main.content h2,
+main.content h3,
+main.content .article-title,
+main.content .breadcrumb,
+main.content .breadcrumb a,
+footer.footer,
+footer.footer a {
+  color: #18181b;
+}
+
+.pub-wrapper {
+  background-color: rgba(241, 245, 249, 0.92) !important;
+  border-radius: 0 !important;
+}
+
+/* ---- Dark mode: follow theme class only (html.dark) ---- */
+html.dark body {
+  background-image: url("/img/tile_dark_pw.png");
+  background-color: #0a101e;
+}
+
+html.dark header,
+html.dark main.content,
+html.dark footer.footer {
+  background-color: rgba(39, 39, 42, 0.88);
+  color: #f4f4f5;
+}
+
+html.dark header a,
+html.dark main.content,
+html.dark main.content a,
+html.dark main.content h1,
+html.dark main.content h2,
+html.dark main.content h3,
+html.dark main.content .article-title,
+html.dark main.content .breadcrumb,
+html.dark main.content .breadcrumb a,
+html.dark footer.footer,
+html.dark footer.footer a {
+  color: #f4f4f5;
+}
+
+html.dark .pub-wrapper {
+  background-color: rgba(51, 65, 85, 0.92) !important;
+}

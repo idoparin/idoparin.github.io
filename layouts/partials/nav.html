@@ -2,7 +2,7 @@
   <div class="container flex flex-wrap justify-between items-center mx-auto">
     <div class="nav-main my-2.5">
       {{ if not .IsHome }}
-      <a href="{{ .Site.BaseURL }}" class="nav-title py-2.5 text-2xl
+      <a href="{{ "/" | relURL }}" class="nav-title py-2.5 text-2xl
                text-zinc-600 dark:text-zinc-300 hover:border-b-0">{{ .Site.Title }}</a>
       {{ end }}
     </div>
@@ -38,12 +38,12 @@
           <button type="button" onclick="toggleMode()" class="h-full"  aria-label="Toggle between dark and light mode">
             <img class="h-7 w-7 max-h-full mb-1.5 p-1.5 hidden dark:inline"
                  id="ligh-mode-button-img"
-                 alt="A sun icon for switching to light mode"
-                 src="{{ "img/light_mode.svg" | absURL  }}">
+                 alt=""
+                 src="{{ "img/light_mode.svg" | relURL }}">
             <img class="h-7 w-7 max-h-full mb-1.5 p-1.5 inline dark:hidden"
                  id="dark-mode-button-img"
-                 alt="A moon icon for switching to dark mode"
-                 src="{{ "img/dark_mode.svg" | absURL }}">
+                 alt=""
+                 src="{{ "img/dark_mode.svg" | relURL }}">
           </button>
         </li>
       </ul>
