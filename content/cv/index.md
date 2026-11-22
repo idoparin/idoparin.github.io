@@ -5,4 +5,4 @@ hideDate: true
 hideLastMod: true
 ---
 
-[Download CV](https://drive.proton.me/urls/AAXZNKWF6R#jxbt69QOyfvk)
+[Download CV (PDF)](/cv/Ivan_Oparin_CV.pdf)
